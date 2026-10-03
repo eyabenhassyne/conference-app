@@ -1,0 +1,29 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+main {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+.section {
+  margin: 30px 0;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 800px) {
+  main {
+    width: min(100% - 24px, 1180px);
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}

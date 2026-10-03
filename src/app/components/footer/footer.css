@@ -1,7 +1,39 @@
 footer {
-  background-color: #333;
+  margin-top: 60px;
+  background: #090909;
   color: white;
-  text-align: center;
-  padding: 15px;
-  margin-top: 20px;
+  border-top: 4px solid #e10600;
+}
+
+.footer-content {
+  max-width: 1180px;
+  margin: auto;
+  min-height: 140px;
+  padding: 35px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-content strong {
+  font-size: 22px;
+}
+
+.footer-content strong span {
+  color: #e10600;
+}
+
+.footer-content p {
+  color: #777;
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+@media (max-width: 650px) {
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    gap: 15px;
+  }
 }
