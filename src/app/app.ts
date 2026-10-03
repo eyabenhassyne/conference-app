@@ -6,6 +6,7 @@ import { UserProfile } from './components/user-profile/user-profile';
 import { FriendList } from './components/friend-list/friend-list';
 import { Notifications } from './components/notifications/notifications';
 import { Footer } from './components/footer/footer';
+import { ConferenceDetail } from './components/conference-detail/conference-detail';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,8 @@ import { Footer } from './components/footer/footer';
     UserProfile,
     FriendList,
     Notifications,
-    Footer
+    Footer,
+    ConferenceDetail,
   ],
   templateUrl: './app.html',
   styleUrl: './app.css'
