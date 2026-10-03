@@ -1,26 +1,113 @@
-<label for="title">Modifier le titre :</label>
+<section class="detail-section">
 
-<input
-  id="title"
-  type="text"
-  [ngModel]="title()"
-  (ngModelChange)="title.set($event)"
->
+  <div class="section-title">
 
-<h2>{{ title() }}</h2>
+    <span class="eyebrow">
+      DÉTAIL
+    </span>
 
-<p>Intervenant : {{ speaker() }}</p>
+    <h2>
+      Détail de la conférence
+    </h2>
 
-<p>Date : {{ date() }}</p>
+  </div>
 
-<p>Places disponibles : {{ availablePlaces() }}</p>
+  @if (conference()) {
 
-<button
-  (click)="register()"
-  [disabled]="availablePlaces() === 0"
->
-  S'inscrire
-</button>
-@if (availablePlaces() === 0) {
-  <p>Aucune place disponible.</p>
-}
+    <article class="detail-card">
+
+      <div class="detail-accent"></div>
+
+      <div class="detail-content">
+
+        <span class="conference-tag">
+          CONFÉRENCE SÉLECTIONNÉE
+        </span>
+
+        <h3>
+          {{ conference()?.title }}
+        </h3>
+
+        <p class="description">
+          {{ conference()?.description }}
+        </p>
+
+        <div class="detail-grid">
+
+          <div class="detail-item">
+
+            <span>Date</span>
+
+            <strong>
+              {{ conference()?.date | date:'dd/MM/yyyy' }}
+            </strong>
+
+          </div>
+
+          <div class="detail-item">
+
+            <span>Lieu</span>
+
+            <strong>
+              {{ conference()?.place }}
+            </strong>
+
+          </div>
+
+          <div class="detail-item">
+
+            <span>Participants</span>
+
+            <strong>
+              {{ conference()?.nbParticipants }}
+              /
+              {{ conference()?.maxParticipants }}
+            </strong>
+
+          </div>
+
+          @if (conference()) {
+
+            <div class="detail-item">
+
+              <span>Places restantes</span>
+
+              <strong class="red-text">
+                {{
+                  conference()!.maxParticipants -
+                  conference()!.nbParticipants
+                }}
+              </strong>
+
+            </div>
+
+          }
+
+        </div>
+
+      </div>
+
+    </article>
+
+  } @else {
+
+    <div class="select-message">
+
+      <div class="select-icon">
+        →
+      </div>
+
+      <div>
+        <h3>Sélectionnez une conférence</h3>
+
+        <p>
+          Cliquez sur une conférence dans la liste pour afficher
+          toutes ses informations.
+        </p>
+      </div>
+
+    </div>
+
+  }
+
+</section>

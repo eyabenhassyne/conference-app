@@ -1,6 +1,72 @@
-section {
-  margin: 20px 0;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+.friends {
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  border: 1px solid #e5e5e5;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.eyebrow {
+  color: #e10600;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.section-header h2 {
+  margin: 7px 0 0;
+  font-size: 25px;
+}
+
+.counter {
+  background: #f5f5f5;
+  padding: 8px 12px;
+  border-radius: 100px;
+  color: #666;
+  font-size: 12px;
+}
+
+.friend-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.friend {
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid #eee;
+  border-radius: 12px;
+}
+
+.friend-avatar {
+  width: 42px;
+  height: 42px;
+  background: #111;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+}
+
+.friend p {
+  margin: 4px 0 0;
+  color: #999;
+  font-size: 12px;
+}
+
+@media (max-width: 700px) {
+  .friend-grid {
+    grid-template-columns: 1fr;
+  }
 }

@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, output } from '@angular/core';
 import { DatePipe, UpperCasePipe } from '@angular/common';
+import { Conference } from '../../models/conference';
 
 @Component({
   selector: 'app-conference-list',
@@ -12,7 +13,9 @@ import { DatePipe, UpperCasePipe } from '@angular/common';
 })
 export class ConferenceList {
 
-  conferences = [
+  conferenceSelected = output<Conference>();
+
+  conferences: Conference[] = [
     {
       title: 'Angular Conference',
       description: 'Découvrir Angular',
@@ -39,4 +42,15 @@ export class ConferenceList {
     }
   ];
 
+  selectConference(conference: Conference) {
+    this.conferenceSelected.emit(conference);
+  }
+
+  register(conference: Conference, event: Event) {
+    event.stopPropagation();
+
+    if (conference.nbParticipants < conference.maxParticipants) {
+      conference.nbParticipants++;
+    }
+  }
 }
