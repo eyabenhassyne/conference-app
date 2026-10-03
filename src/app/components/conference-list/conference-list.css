@@ -1,0 +1,30 @@
+.conference-card {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+}
+
+.green {
+  background-color: green;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 5px;
+}
+
+.orange {
+  background-color: orange;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 5px;
+}
+
+.red {
+  background-color: red;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 5px;
+}

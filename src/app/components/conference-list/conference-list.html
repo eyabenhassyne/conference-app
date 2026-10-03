@@ -1,0 +1,67 @@
+<h2>Liste des conférences</h2>
+
+@if (conferences.length > 0) {
+
+  @for (conference of conferences; track conference.title) {
+
+    <div class="conference-card">
+
+      <h3>
+        {{ conference.title | uppercase }}
+      </h3>
+
+      <p>
+        Description :
+        {{ conference.description }}
+      </p>
+
+      <p>
+        Date :
+        {{ conference.date | date:'dd/MM/yyyy' }}
+      </p>
+
+      <p>
+        Lieu :
+        {{ conference.place }}
+      </p>
+
+      <p>
+        Participants :
+        {{ conference.nbParticipants }} /
+        {{ conference.maxParticipants }}
+      </p>
+
+      <p>
+        Places restantes :
+        {{ conference.maxParticipants - conference.nbParticipants }}
+      </p>
+
+      @if (conference.maxParticipants - conference.nbParticipants > 10) {
+
+        <button class="green">
+          S'inscrire
+        </button>
+
+      } @else if (conference.maxParticipants - conference.nbParticipants > 0) {
+
+        <button class="orange">
+          S'inscrire
+        </button>
+
+      } @else {
+
+        <button class="red" disabled>
+          Complet
+        </button>
+
+      }
+
+    </div>
+
+  }
+
+} @else {
+
+  <p>Aucune conférence disponible.</p>
+
+}
