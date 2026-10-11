@@ -3,7 +3,7 @@
   <div class="section-title">
 
     <span class="eyebrow">
-      DÉTAIL
+      CONFÉRENCE #{{ id() }}
     </span>
 
     <h2>
@@ -12,7 +12,7 @@
 
   </div>
 
-  @if (conference()) {
+  @if (conference(); as conf) {
 
     <article class="detail-card">
 
@@ -25,21 +25,31 @@
         </span>
 
         <h3>
-          {{ conference()?.title }}
+          {{ conf.title }}
         </h3>
 
         <p class="description">
-          {{ conference()?.description }}
+          {{ conf.description }}
         </p>
 
         <div class="detail-grid">
 
           <div class="detail-item">
 
+            <span>ID</span>
+
+            <strong>
+              {{ conf.id }}
+            </strong>
+
+          </div>
+
+          <div class="detail-item">
+
             <span>Date</span>
 
             <strong>
-              {{ conference()?.date | date:'dd/MM/yyyy' }}
+              {{ conf.date | date:'dd/MM/yyyy' }}
             </strong>
 
           </div>
@@ -49,7 +59,7 @@
             <span>Lieu</span>
 
             <strong>
-              {{ conference()?.place }}
+              {{ conf.place }}
             </strong>
 
           </div>
@@ -59,29 +69,36 @@
             <span>Participants</span>
 
             <strong>
-              {{ conference()?.nbParticipants }}
+              {{ conf.nbParticipants }}
               /
-              {{ conference()?.maxParticipants }}
+              {{ conf.maxParticipants }}
             </strong>
 
           </div>
 
-          @if (conference()) {
+          <div class="detail-item">
 
-            <div class="detail-item">
+            <span>Places restantes</span>
 
-              <span>Places restantes</span>
+            <strong class="red-text">
+              {{
+                conf.maxParticipants -
+                conf.nbParticipants
+              }}
+            </strong>
 
-              <strong class="red-text">
-                {{
-                  conference()!.maxParticipants -
-                  conference()!.nbParticipants
-                }}
-              </strong>
+          </div>
 
-            </div>
+        </div>
 
-          }
+        <div class="detail-actions">
+
+          <a
+            routerLink="/conferences"
+            class="back-btn"
+          >
+            ← Retour aux conférences
+          </a>
 
         </div>
 
@@ -91,20 +108,20 @@
 
   } @else {
 
-    <div class="select-message">
+    <div class="not-found">
 
-      <div class="select-icon">
-        →
-      </div>
+      <h3>
+        Conférence introuvable
+      </h3>
 
-      <div>
-        <h3>Sélectionnez une conférence</h3>
+      <p>
+        Aucune conférence avec l'identifiant
+        {{ id() }} n'existe.
+      </p>
 
-        <p>
-          Cliquez sur une conférence dans la liste pour afficher
-          toutes ses informations.
-        </p>
-      </div>
+      <a routerLink="/conferences">
+        Retour à la liste
+      </a>
 
     </div>
 

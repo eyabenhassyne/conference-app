@@ -191,4 +191,19 @@
   .conference-grid {
     grid-template-columns: 1fr;
   }
+
+
+}
+.details-btn {
+  text-decoration: none;
+  background: #111;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 7px;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.details-btn:hover {
+  background: #333;
 }
