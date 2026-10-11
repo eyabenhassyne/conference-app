@@ -1,0 +1,36 @@
+<section class="admin-layout">
+
+  <h1>Administration</h1>
+
+  <nav class="admin-nav">
+
+    <a
+      routerLink="dashboard"
+      routerLinkActive="active"
+    >
+      Dashboard
+    </a>
+
+    <a
+      routerLink="users"
+      routerLinkActive="active"
+    >
+      Utilisateurs
+    </a>
+
+    <a
+      routerLink="statistics"
+      routerLinkActive="active"
+    >
+      Statistiques
+    </a>
+
+  </nav>
+
+  <div class="admin-content">
+
+    <router-outlet></router-outlet>
+
+  </div>
+
+</section>

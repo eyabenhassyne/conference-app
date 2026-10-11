@@ -14,15 +14,7 @@
   </section>
 
   <section class="section">
-    <app-conference-list
-      (conferenceSelected)="onConferenceSelected($event)">
-    </app-conference-list>
-  </section>
-
-  <section class="section">
-    <app-conference-detail
-      [conference]="selectedConference()">
-    </app-conference-detail>
+    <router-outlet></router-outlet>
   </section>
 
 </main>
