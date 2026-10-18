@@ -1,0 +1,82 @@
+<section class="form-section">
+
+  <h2>Ajouter une conférence</h2>
+
+  <form
+    [formGroup]="conferenceForm"
+    (ngSubmit)="onSubmit()"
+  >
+
+    <div>
+      <label>Titre</label>
+
+      <input
+        type="text"
+        formControlName="title"
+      >
+    </div>
+
+    <div>
+      <label>Description</label>
+
+      <textarea
+        formControlName="description">
+      </textarea>
+    </div>
+
+    <div>
+      <label>Catégorie</label>
+
+      <input
+        type="text"
+        formControlName="category"
+      >
+    </div>
+
+    <div>
+      <label>Lieu</label>
+
+      <input
+        type="text"
+        formControlName="place"
+      >
+    </div>
+
+    <div>
+      <label>Date</label>
+
+      <input
+        type="date"
+        formControlName="date"
+      >
+    </div>
+
+    <div>
+      <label>
+        Nombre maximal de participants
+      </label>
+
+      <input
+        type="number"
+        formControlName="maxParticipants"
+      >
+    </div>
+
+    <div>
+      <label>
+        Nombre actuel de participants
+      </label>
+
+      <input
+        type="number"
+        formControlName="nbParticipants"
+      >
+    </div>
+
+    <button type="submit">
+      Enregistrer
+    </button>
+
+  </form>
+
+</section>
