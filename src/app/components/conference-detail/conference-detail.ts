@@ -10,6 +10,7 @@ import {
 } from '@angular/common';
 
 import {
+  Router,
   RouterLink
 } from '@angular/router';
 
@@ -34,11 +35,15 @@ export class ConferenceDetail {
   private conferenceService =
     inject(ConferenceService);
 
+  private router =
+    inject(Router);
+
   id = input.required<string>();
 
   conference = computed(() => {
 
-    const conferenceId = Number(this.id());
+    const conferenceId =
+      Number(this.id());
 
     return this.conferenceService.getById(
       conferenceId
@@ -46,4 +51,18 @@ export class ConferenceDetail {
 
   });
 
+  register() {
+
+    const conferenceId =
+      Number(this.id());
+
+    this.conferenceService.register(
+      conferenceId
+    );
+
+    this.router.navigate([
+      '/confirmation',
+      conferenceId
+    ]);
+  }
 }
