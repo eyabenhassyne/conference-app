@@ -13,8 +13,9 @@ export const routes: Routes = [
     loadComponent: () =>
       import(
         './components/conference-list/conference-list'
+      ).then(
+        m => m.ConferenceList
       )
-        .then(m => m.ConferenceList)
   },
 
   {
@@ -22,8 +23,9 @@ export const routes: Routes = [
     loadComponent: () =>
       import(
         './components/conference-detail/conference-detail'
+      ).then(
+        m => m.ConferenceDetail
       )
-        .then(m => m.ConferenceDetail)
   },
 
   {
@@ -31,10 +33,9 @@ export const routes: Routes = [
     loadComponent: () =>
       import(
         './components/registration-confirmation/registration-confirmation'
+      ).then(
+        m => m.RegistrationConfirmation
       )
-        .then(
-          m => m.RegistrationConfirmation
-        )
   },
 
   {
@@ -42,8 +43,9 @@ export const routes: Routes = [
     loadComponent: () =>
       import(
         './components/profile/profile'
+      ).then(
+        m => m.Profile
       )
-        .then(m => m.Profile)
   },
 
   {
@@ -51,26 +53,31 @@ export const routes: Routes = [
     loadChildren: () =>
       import(
         './features/admin/admin.routes'
+      ).then(
+        m => m.ADMIN_ROUTES
       )
-        .then(m => m.ADMIN_ROUTES)
   },
-  {
-  path: 'route-test/:id',
-  loadComponent: () =>
-    import(
-      './components/conference-route-test/conference-route-test'
-    )
-      .then(m => m.ConferenceRouteTest)
-},
-  {
-  path: 'conference-form',
 
-  loadComponent: () =>
-    import(
-      './components/conference-form/conference-form'
-    )
-      .then(m => m.ConferenceForm)
-},
+  {
+    path: 'route-test/:id',
+    loadComponent: () =>
+      import(
+        './components/conference-route-test/conference-route-test'
+      ).then(
+        m => m.ConferenceRouteTest
+      )
+  },
+
+  {
+    path: 'conference-form',
+    loadComponent: () =>
+      import(
+        './components/conference-form/conference-form'
+      ).then(
+        m => m.ConferenceForm
+      )
+  },
+
   {
     path: '**',
     redirectTo: 'conferences'

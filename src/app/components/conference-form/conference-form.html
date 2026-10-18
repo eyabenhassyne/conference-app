@@ -1,22 +1,44 @@
 <section class="form-section">
 
-  <h2>
-    Ajouter une conférence
-  </h2>
+  <div class="form-header">
+
+    <span class="eyebrow">
+      REACTIVE FORM + SIGNALS
+    </span>
+
+    <h2>
+      Ajouter une conférence
+    </h2>
+
+    <p>
+      Complétez les informations de la conférence.
+    </p>
+
+  </div>
+
 
   <form
     [formGroup]="conferenceForm"
     (ngSubmit)="onSubmit()"
   >
 
+    <!-- TITRE -->
+
     <div class="form-group">
 
-      <label>Titre</label>
+      <label>
+        Titre
+      </label>
 
       <input
         type="text"
         formControlName="title"
+        placeholder="Ex : Angular Conference"
       >
+
+      <p class="counter">
+        {{ titleLength() }} caractère(s)
+      </p>
 
       @if (
         conferenceForm.controls.title.touched &&
@@ -49,13 +71,22 @@
     </div>
 
 
+    <!-- DESCRIPTION -->
+
     <div class="form-group">
 
-      <label>Description</label>
+      <label>
+        Description
+      </label>
 
       <textarea
-        formControlName="description">
+        formControlName="description"
+        placeholder="Description de la conférence">
       </textarea>
+
+      <p class="counter">
+        {{ descriptionLength() }} caractère(s)
+      </p>
 
       @if (
         conferenceForm.controls.description.touched &&
@@ -76,8 +107,8 @@
             conferenceForm.controls.description.errors?.['minlength']
           ) {
             <span>
-              La description doit contenir
-              au moins 10 caractères.
+              La description doit contenir au moins
+              10 caractères.
             </span>
           }
 
@@ -88,51 +119,69 @@
     </div>
 
 
+    <!-- CATEGORIE -->
+
     <div class="form-group">
 
-      <label>Catégorie</label>
+      <label>
+        Catégorie
+      </label>
 
       <input
         type="text"
         formControlName="category"
+        placeholder="Ex : Web"
       >
 
       @if (
         conferenceForm.controls.category.touched &&
         conferenceForm.controls.category.errors?.['required']
       ) {
+
         <span class="error">
           La catégorie est obligatoire.
         </span>
+
       }
 
     </div>
 
 
+    <!-- LIEU -->
+
     <div class="form-group">
 
-      <label>Lieu</label>
+      <label>
+        Lieu
+      </label>
 
       <input
         type="text"
         formControlName="place"
+        placeholder="Ex : Tunis"
       >
 
       @if (
         conferenceForm.controls.place.touched &&
         conferenceForm.controls.place.errors?.['required']
       ) {
+
         <span class="error">
           Le lieu est obligatoire.
         </span>
+
       }
 
     </div>
 
 
+    <!-- DATE -->
+
     <div class="form-group">
 
-      <label>Date</label>
+      <label>
+        Date
+      </label>
 
       <input
         type="date"
@@ -143,13 +192,17 @@
         conferenceForm.controls.date.touched &&
         conferenceForm.controls.date.errors?.['required']
       ) {
+
         <span class="error">
           La date est obligatoire.
         </span>
+
       }
 
     </div>
 
+
+    <!-- MAX PARTICIPANTS -->
 
     <div class="form-group">
 
@@ -160,6 +213,7 @@
       <input
         type="number"
         formControlName="maxParticipants"
+        min="1"
       >
 
       @if (
@@ -193,48 +247,78 @@
     </div>
 
 
+    <!-- NB PARTICIPANTS -->
+
     <div class="form-group">
 
-  <label>
-    Nombre actuel de participants
-  </label>
+      <label>
+        Nombre actuel de participants
+      </label>
 
-  <input
-    type="number"
-    formControlName="nbParticipants"
-  >
+      <input
+        type="number"
+        formControlName="nbParticipants"
+        min="0"
+      >
 
-  @if (
-    conferenceForm.controls.nbParticipants.touched &&
-    conferenceForm.controls.nbParticipants.errors?.['min']
-  ) {
+      @if (
+        conferenceForm.controls.nbParticipants.touched &&
+        conferenceForm.controls.nbParticipants.errors?.['min']
+      ) {
 
-    <span class="error">
-      Le nombre de participants
-      ne peut pas être négatif.
-    </span>
+        <span class="error">
+          Le nombre de participants
+          ne peut pas être négatif.
+        </span>
 
-  }
+      }
 
-</div>
+    </div>
 
-@if (
-  conferenceForm.errors?.['participantsExceeded']
-) {
 
-  <div class="error">
+    <!-- VALIDATION METIER -->
 
-    Le nombre actuel de participants
-    ne peut pas dépasser le nombre maximal.
+    @if (
+      conferenceForm.errors?.['participantsExceeded']
+    ) {
 
-  </div>
+      <div class="business-error">
 
-}
+        Le nombre actuel de participants
+        ne peut pas dépasser
+        le nombre maximal.
 
+      </div>
+
+    }
+
+
+    <!-- ETAT DU FORMULAIRE -->
+
+    <div class="form-status">
+
+      @if (isFormValid()) {
+
+        <span class="valid">
+          ✓ Formulaire valide
+        </span>
+
+      } @else {
+
+        <span class="invalid">
+          ✗ Formulaire invalide
+        </span>
+
+      }
+
+    </div>
+
+
+    <!-- BOUTON -->
 
     <button
       type="submit"
-      [disabled]="conferenceForm.invalid"
+      [disabled]="!isFormValid()"
     >
       Enregistrer
     </button>
