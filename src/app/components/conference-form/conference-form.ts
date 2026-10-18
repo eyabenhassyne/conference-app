@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  computed
+} from '@angular/core';
 
 import {
   AbstractControl,
@@ -8,6 +11,10 @@ import {
   ValidationErrors,
   Validators
 } from '@angular/forms';
+
+import {
+  toSignal
+} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-conference-form',
@@ -66,6 +73,46 @@ export class ConferenceForm {
     }
   );
 
+  formValue = toSignal(
+    this.conferenceForm.valueChanges,
+    {
+      initialValue:
+        this.conferenceForm.getRawValue()
+    }
+  );
+
+  formStatus = toSignal(
+    this.conferenceForm.statusChanges,
+    {
+      initialValue:
+        this.conferenceForm.status
+    }
+  );
+
+  titleLength = computed(() => {
+
+    return (
+      this.formValue().title?.length ?? 0
+    );
+
+  });
+
+  descriptionLength = computed(() => {
+
+    return (
+      this.formValue().description?.length ?? 0
+    );
+
+  });
+
+  isFormValid = computed(() => {
+
+    return (
+      this.formStatus() === 'VALID'
+    );
+
+  });
+
   participantsValidator(
     control: AbstractControl
   ): ValidationErrors | null {
@@ -96,10 +143,12 @@ export class ConferenceForm {
     if (this.conferenceForm.valid) {
 
       console.log(
-        this.conferenceForm.value
+        'Conférence enregistrée :',
+        this.conferenceForm.getRawValue()
       );
 
     }
 
   }
+
 }
