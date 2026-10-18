@@ -100,6 +100,29 @@
             ← Retour aux conférences
           </a>
 
+          @if (
+            conf.nbParticipants <
+            conf.maxParticipants
+          ) {
+
+            <button
+              class="register-btn"
+              (click)="register()"
+            >
+              S'inscrire
+            </button>
+
+          } @else {
+
+            <button
+              class="register-btn disabled-btn"
+              disabled
+            >
+              Complet
+            </button>
+
+          }
+
         </div>
 
       </div>

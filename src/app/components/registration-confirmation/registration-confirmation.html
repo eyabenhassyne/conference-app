@@ -1,0 +1,75 @@
+<section class="confirmation-section">
+
+  @if (conference(); as conf) {
+
+    <div class="confirmation-card">
+
+      <div class="success-icon">
+        ✓
+      </div>
+
+      <span class="eyebrow">
+        INSCRIPTION VALIDÉE
+      </span>
+
+      <h2>
+        Inscription confirmée
+      </h2>
+
+      <p>
+        Votre inscription à
+        <strong>
+          {{ conf.title }}
+        </strong>
+        a été enregistrée avec succès.
+      </p>
+
+      <div class="confirmation-info">
+
+        <div>
+          <span>ID conférence</span>
+
+          <strong>
+            {{ conf.id }}
+          </strong>
+        </div>
+
+        <div>
+          <span>Lieu</span>
+
+          <strong>
+            {{ conf.place }}
+          </strong>
+        </div>
+
+      </div>
+
+      <a
+        routerLink="/conferences"
+        class="back-btn"
+      >
+        Retour aux conférences
+      </a>
+
+    </div>
+
+  } @else {
+
+    <div class="confirmation-card">
+
+      <h2>
+        Conférence introuvable
+      </h2>
+
+      <a
+        routerLink="/conferences"
+        class="back-btn"
+      >
+        Retour aux conférences
+      </a>
+
+    </div>
+
+  }
+
+</section>
