@@ -63,6 +63,15 @@ export const routes: Routes = [
       .then(m => m.ConferenceRouteTest)
 },
   {
+  path: 'conference-form',
+
+  loadComponent: () =>
+    import(
+      './components/conference-form/conference-form'
+    )
+      .then(m => m.ConferenceForm)
+},
+  {
     path: '**',
     redirectTo: 'conferences'
   }
