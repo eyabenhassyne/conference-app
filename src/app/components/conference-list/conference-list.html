@@ -17,12 +17,12 @@
 
   </div>
 
-  @if (conferences.length > 0) {
+  @if (conferences().length > 0) {
 
     <div class="conference-grid">
 
       @for (
-        conference of conferences;
+        conference of conferences();
         track conference.id
       ) {
 
@@ -93,12 +93,23 @@
               Voir détails
             </a>
 
+            <a
+              class="edit-btn"
+              [routerLink]="[
+                '/conference-edit',
+                conference.id
+              ]"
+            >
+              Modifier
+            </a>
+
             @if (
               conference.maxParticipants -
               conference.nbParticipants > 10
             ) {
 
               <button
+                type="button"
                 class="register-btn"
                 (click)="register(conference, $event)"
               >
@@ -111,6 +122,7 @@
             ) {
 
               <button
+                type="button"
                 class="register-btn limited-btn"
                 (click)="register(conference, $event)"
               >
@@ -120,6 +132,7 @@
             } @else {
 
               <button
+                type="button"
                 class="register-btn disabled-btn"
                 disabled
               >
@@ -127,6 +140,17 @@
               </button>
 
             }
+
+            <button
+              type="button"
+              class="delete-btn"
+              (click)="deleteConference(
+                conference,
+                $event
+              )"
+            >
+              Supprimer
+            </button>
 
           </div>
 
@@ -139,7 +163,11 @@
   } @else {
 
     <div class="empty-state">
-      <h3>Aucune conférence disponible</h3>
+
+      <h3>
+        Aucune conférence disponible
+      </h3>
+
     </div>
 
   }

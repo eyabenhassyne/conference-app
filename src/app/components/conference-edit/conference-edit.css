@@ -1,0 +1,147 @@
+.edit-section {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.edit-header {
+  margin-bottom: 30px;
+}
+
+.eyebrow {
+  color: #e10600;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.edit-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  margin: 8px 0 10px;
+  color: #111;
+}
+
+.edit-header p {
+  color: #777;
+  line-height: 1.6;
+}
+
+form {
+  background: white;
+  border: 1px solid #e5e5e5;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.06);
+}
+
+.form-group {
+  margin-bottom: 22px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #111;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.form-group textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #e10600;
+}
+
+.error {
+  display: block;
+  color: #e10600;
+  font-size: 12px;
+  margin-top: 7px;
+}
+
+.error span {
+  display: block;
+  margin-top: 4px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.cancel-btn,
+.save-btn {
+  border: none;
+  padding: 11px 18px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancel-btn {
+  background: #111;
+  color: white;
+}
+
+.cancel-btn:hover {
+  background: #333;
+}
+
+.save-btn {
+  background: #e10600;
+  color: white;
+}
+
+.save-btn:hover:not(:disabled) {
+  background: #b90400;
+}
+
+.save-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+@media (max-width: 650px) {
+  .edit-section {
+    padding: 25px 15px;
+  }
+
+  form {
+    padding: 22px;
+  }
+
+  .edit-header h2 {
+    font-size: 28px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .cancel-btn,
+  .save-btn {
+    width: 100%;
+  }
+}

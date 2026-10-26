@@ -1,6 +1,7 @@
 import {
   Component,
-  computed
+  computed,
+  inject
 } from '@angular/core';
 
 import {
@@ -16,6 +17,18 @@ import {
   toSignal
 } from '@angular/core/rxjs-interop';
 
+import {
+  Router
+} from '@angular/router';
+
+import {
+  ConferenceService
+} from '../../services/conference';
+
+import {
+  Conference
+} from '../../models/conference';
+
 @Component({
   selector: 'app-conference-form',
 
@@ -28,6 +41,13 @@ import {
   styleUrl: './conference-form.css'
 })
 export class ConferenceForm {
+
+  private conferenceService =
+    inject(ConferenceService);
+
+  private router =
+    inject(Router);
+
 
   conferenceForm = new FormGroup(
     {
@@ -73,6 +93,7 @@ export class ConferenceForm {
     }
   );
 
+
   formValue = toSignal(
     this.conferenceForm.valueChanges,
     {
@@ -80,6 +101,7 @@ export class ConferenceForm {
         this.conferenceForm.getRawValue()
     }
   );
+
 
   formStatus = toSignal(
     this.conferenceForm.statusChanges,
@@ -89,6 +111,7 @@ export class ConferenceForm {
     }
   );
 
+
   titleLength = computed(() => {
 
     return (
@@ -96,6 +119,7 @@ export class ConferenceForm {
     );
 
   });
+
 
   descriptionLength = computed(() => {
 
@@ -105,6 +129,7 @@ export class ConferenceForm {
 
   });
 
+
   isFormValid = computed(() => {
 
     return (
@@ -112,6 +137,7 @@ export class ConferenceForm {
     );
 
   });
+
 
   participantsValidator(
     control: AbstractControl
@@ -136,18 +162,98 @@ export class ConferenceForm {
     }
 
     return null;
+
   }
+
+
+  // ==========================================
+  // POST : ajouter une nouvelle conférence
+  // ==========================================
 
   onSubmit(): void {
 
-    if (this.conferenceForm.valid) {
+    if (
+      this.conferenceForm.invalid
+    ) {
 
-      console.log(
-        'Conférence enregistrée :',
-        this.conferenceForm.getRawValue()
-      );
+      this.conferenceForm
+        .markAllAsTouched();
+
+      return;
 
     }
+
+    const formData =
+      this.conferenceForm.getRawValue();
+
+
+    const newConference: Conference = {
+
+      id: 0,
+
+      title:
+        formData.title ?? '',
+
+      description:
+        formData.description ?? '',
+
+      category:
+        formData.category ?? '',
+
+      place:
+        formData.place ?? '',
+
+      date:
+        formData.date ?? '',
+
+      maxParticipants:
+        formData.maxParticipants ?? 1,
+
+      nbParticipants:
+        formData.nbParticipants ?? 0
+
+    };
+
+
+    this.conferenceService
+      .add(newConference)
+      .subscribe({
+
+        next: conference => {
+
+          console.log(
+            'Conférence ajoutée :',
+            conference
+          );
+
+          this.conferenceForm.reset({
+
+            title: '',
+            description: '',
+            category: '',
+            place: '',
+            date: '',
+            maxParticipants: 1,
+            nbParticipants: 0
+
+          });
+
+          this.router.navigate([
+            '/conferences'
+          ]);
+
+        },
+
+        error: error => {
+
+          console.error(
+            'Erreur lors de ajout de la conférence',
+            error
+          );
+
+        }
+
+      });
 
   }
 

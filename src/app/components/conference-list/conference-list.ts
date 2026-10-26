@@ -1,9 +1,27 @@
-import { Component, inject } from '@angular/core';
-import { DatePipe, UpperCasePipe } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import {
+  Component,
+  inject,
+  OnInit,
+  signal
+} from '@angular/core';
 
-import { ConferenceService } from '../../services/conference';
-import { Conference } from '../../models/conference';
+import {
+  DatePipe,
+  UpperCasePipe
+} from '@angular/common';
+
+import {
+  Router,
+  RouterLink
+} from '@angular/router';
+
+import {
+  ConferenceService
+} from '../../services/conference';
+
+import {
+  Conference
+} from '../../models/conference';
 
 @Component({
   selector: 'app-conference-list',
@@ -15,9 +33,10 @@ import { Conference } from '../../models/conference';
   ],
 
   templateUrl: './conference-list.html',
+
   styleUrl: './conference-list.css'
 })
-export class ConferenceList {
+export class ConferenceList implements OnInit {
 
   private conferenceService =
     inject(ConferenceService);
@@ -25,8 +44,55 @@ export class ConferenceList {
   private router =
     inject(Router);
 
-  conferences: Conference[] =
-    this.conferenceService.getAll();
+
+  // ==========================================
+  // SIGNAL : liste des conférences
+  // ==========================================
+
+  conferences =
+    signal<Conference[]>([]);
+
+
+  ngOnInit(): void {
+
+    this.loadConferences();
+
+  }
+
+
+  // ==========================================
+  // GET ALL
+  // ==========================================
+
+  loadConferences(): void {
+
+    this.conferenceService
+      .getAll()
+      .subscribe({
+
+        next: data => {
+
+          this.conferences.set(data);
+
+        },
+
+        error: error => {
+
+          console.error(
+            'Erreur lors du chargement des conférences',
+            error
+          );
+
+        }
+
+      });
+
+  }
+
+
+  // ==========================================
+  // REGISTER / PATCH
+  // ==========================================
 
   register(
     conference: Conference,
@@ -40,14 +106,71 @@ export class ConferenceList {
       conference.maxParticipants
     ) {
 
-      this.conferenceService.register(
-        conference.id
-      );
+      this.conferenceService
+        .register(conference.id)
+        .subscribe({
 
-      this.router.navigate([
-        '/confirmation',
-        conference.id
-      ]);
+          next: () => {
+
+            this.router.navigate([
+              '/confirmation',
+              conference.id
+            ]);
+
+          },
+
+          error: error => {
+
+            console.error(
+              'Erreur lors de inscription',
+              error
+            );
+
+          }
+
+        });
+
     }
+
   }
+
+
+  // ==========================================
+  // DELETE
+  // ==========================================
+
+  deleteConference(
+    conference: Conference,
+    event: Event
+  ): void {
+
+    event.stopPropagation();
+
+    this.conferenceService
+      .delete(conference.id)
+      .subscribe({
+
+        next: () => {
+
+          console.log(
+            'Conférence supprimée'
+          );
+
+          this.loadConferences();
+
+        },
+
+        error: error => {
+
+          console.error(
+            'Erreur lors de la suppression',
+            error
+          );
+
+        }
+
+      });
+
+  }
+
 }
