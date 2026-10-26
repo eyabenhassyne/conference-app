@@ -1,8 +1,8 @@
 import {
   Component,
-  computed,
   inject,
-  input
+  input,
+  OnInit
 } from '@angular/core';
 
 import {
@@ -18,6 +18,10 @@ import {
   ConferenceService
 } from '../../services/conference';
 
+import {
+  Conference
+} from '../../models/conference';
+
 @Component({
   selector: 'app-conference-detail',
 
@@ -30,7 +34,7 @@ import {
 
   styleUrl: './conference-detail.css'
 })
-export class ConferenceDetail {
+export class ConferenceDetail implements OnInit {
 
   private conferenceService =
     inject(ConferenceService);
@@ -40,29 +44,93 @@ export class ConferenceDetail {
 
   id = input.required<string>();
 
-  conference = computed(() => {
+  conference?: Conference;
 
-    const conferenceId =
-      Number(this.id());
 
-    return this.conferenceService.getById(
-      conferenceId
-    );
+  ngOnInit(): void {
 
-  });
+    this.loadConference();
 
-  register() {
-
-    const conferenceId =
-      Number(this.id());
-
-    this.conferenceService.register(
-      conferenceId
-    );
-
-    this.router.navigate([
-      '/confirmation',
-      conferenceId
-    ]);
   }
+
+
+  // ==========================================
+  // GET BY ID
+  // ==========================================
+
+  loadConference(): void {
+
+    const conferenceId =
+      Number(this.id());
+
+    this.conferenceService
+      .getById(conferenceId)
+      .subscribe({
+
+        next: data => {
+
+          this.conference = data;
+
+        },
+
+        error: error => {
+
+          console.error(
+            'Erreur lors du chargement de la conférence',
+            error
+          );
+
+        }
+
+      });
+
+  }
+
+
+  // ==========================================
+  // REGISTER
+  // ==========================================
+
+  register(): void {
+
+    if (!this.conference) {
+      return;
+    }
+
+    if (
+      this.conference.nbParticipants >=
+      this.conference.maxParticipants
+    ) {
+      return;
+    }
+
+    const conferenceId =
+      Number(this.id());
+
+    this.conferenceService
+      .register(conferenceId)
+      .subscribe({
+
+        next: () => {
+
+          this.router.navigate([
+            '/confirmation',
+            conferenceId
+          ]);
+
+        },
+
+        error: error => {
+
+          console.error(
+            'Erreur lors de inscription',
+            error
+          );
+
+        }
+
+      });
+
+  }
+
 }

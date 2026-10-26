@@ -29,6 +29,16 @@ export const routes: Routes = [
   },
 
   {
+    path: 'conference-edit/:id',
+    loadComponent: () =>
+      import(
+        './components/conference-edit/conference-edit'
+      ).then(
+        m => m.ConferenceEdit
+      )
+  },
+
+  {
     path: 'confirmation/:id',
     loadComponent: () =>
       import(

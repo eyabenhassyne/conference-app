@@ -1,4 +1,7 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, switchMap, throwError } from 'rxjs';
+
 import { Conference } from '../models/conference';
 
 @Injectable({
@@ -6,55 +9,133 @@ import { Conference } from '../models/conference';
 })
 export class ConferenceService {
 
-  private conferences: Conference[] = [
-    {
-      id: 1,
-      title: 'Angular Conference',
-      description: 'Découvrir Angular et ses fonctionnalités modernes',
-      date: new Date('2026-10-20'),
-      place: 'Tunis',
-      maxParticipants: 100,
-      nbParticipants: 40
-    },
-    {
-      id: 2,
-      title: 'AI Conference',
-      description: 'Découvrir intelligence artificielle',
-      date: new Date('2026-11-15'),
-      place: 'Ariana',
-      maxParticipants: 50,
-      nbParticipants: 45
-    },
-    {
-      id: 3,
-      title: 'Cloud Conference',
-      description: 'Découvrir le Cloud',
-      date: new Date('2026-12-10'),
-      place: 'Sousse',
-      maxParticipants: 30,
-      nbParticipants: 30
-    }
-  ];
+  private http = inject(HttpClient);
 
-  getAll(): Conference[] {
-    return this.conferences;
-  }
+  private apiUrl = 'http://localhost:3000/conferences';
 
-  getById(id: number): Conference | undefined {
-    return this.conferences.find(
-      conference => conference.id === id
+
+  // =====================================================
+  // GET : récupérer toutes les conférences
+  // =====================================================
+
+  getAll(): Observable<Conference[]> {
+
+    return this.http.get<Conference[]>(
+      this.apiUrl
     );
+
   }
 
-  register(id: number): void {
 
-    const conference = this.getById(id);
+  // =====================================================
+  // GET BY ID : récupérer une conférence par son id
+  // =====================================================
 
-    if (
-      conference &&
-      conference.nbParticipants < conference.maxParticipants
-    ) {
-      conference.nbParticipants++;
-    }
+  getById(id: number): Observable<Conference> {
+
+    return this.http.get<Conference>(
+      `${this.apiUrl}/${id}`
+    );
+
   }
+
+
+  // =====================================================
+  // POST : ajouter une nouvelle conférence
+  // =====================================================
+
+  add(conference: Conference): Observable<Conference> {
+
+    return this.http.post<Conference>(
+      this.apiUrl,
+      conference
+    );
+
+  }
+
+
+  // =====================================================
+  // PUT : modifier complètement une conférence
+  // =====================================================
+
+  update(
+    id: number,
+    conference: Conference
+  ): Observable<Conference> {
+
+    return this.http.put<Conference>(
+      `${this.apiUrl}/${id}`,
+      conference
+    );
+
+  }
+
+
+  // =====================================================
+  // PATCH : modifier seulement certaines propriétés
+  // =====================================================
+
+  patch(
+    id: number,
+    changes: Partial<Conference>
+  ): Observable<Conference> {
+
+    return this.http.patch<Conference>(
+      `${this.apiUrl}/${id}`,
+      changes
+    );
+
+  }
+
+
+  // =====================================================
+  // DELETE : supprimer une conférence
+  // =====================================================
+
+  delete(id: number): Observable<void> {
+
+    return this.http.delete<void>(
+      `${this.apiUrl}/${id}`
+    );
+
+  }
+
+
+  // =====================================================
+  // REGISTER : inscrire un participant
+  // =====================================================
+
+  register(id: number): Observable<Conference> {
+
+    return this.getById(id).pipe(
+
+      switchMap(conference => {
+
+        if (
+          conference.nbParticipants <
+          conference.maxParticipants
+        ) {
+
+          return this.patch(
+            id,
+            {
+              nbParticipants:
+                conference.nbParticipants + 1
+            }
+          );
+
+        }
+
+        return throwError(
+          () => new Error(
+            'La conférence est complète'
+          )
+        );
+
+      })
+
+    );
+
+  }
+
 }
